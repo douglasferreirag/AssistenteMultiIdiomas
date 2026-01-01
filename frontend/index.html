@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Gravar Áudio</title>
+</head>
+<body>
+
+<h2>Gravador de Áudio</h2>
+<button id="start">🎙️ Gravar</button>
+<button id="stop" disabled>⏹️ Parar</button>
+
+<script>
+let mediaRecorder;
+let audioChunks = [];
+
+document.getElementById("start").onclick = async () => {
+  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  mediaRecorder = new MediaRecorder(stream);
+  audioChunks = [];
+
+  mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+  mediaRecorder.start();
+
+  document.getElementById("start").disabled = true;
+  document.getElementById("stop").disabled = false;
+};
+
+document.getElementById("stop").onclick = async () => {
+  mediaRecorder.stop();
+
+  mediaRecorder.onstop = async () => {
+    const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
+    const formData = new FormData();
+    formData.append("audio", audioBlob, "request_audio.wav");
+
+    await fetch("http://127.0.0.1:8000/upload-audio", {
+      method: "POST",
+      body: formData
+    });
+
+    alert("Áudio enviado com sucesso!");
+  };
+
+  document.getElementById("start").disabled = false;
+  document.getElementById("stop").disabled = true;
+};
+</script>
+
+</body>
+</html>

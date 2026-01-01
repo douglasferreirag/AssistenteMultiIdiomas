@@ -1,4 +1,3 @@
-from pathlib import Path
 from fastapi import FastAPI, HTTPException, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -8,6 +7,9 @@ from datetime import datetime
 import uuid
 import whisper
 
+# ======================
+# App
+# ======================
 app = FastAPI()
 
 app.add_middleware(
@@ -17,9 +19,18 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# ======================
+# Pastas
+# ======================
 UPLOAD_DIR = "audios"
-os.makedirs(UPLOAD_DIR, exist_ok=True)
+TRANSCRICOES_DIR = "transcricoes"
 
+os.makedirs(UPLOAD_DIR, exist_ok=True)
+os.makedirs(TRANSCRICOES_DIR, exist_ok=True)
+
+# ======================
+# Whisper
+# ======================
 model = whisper.load_model("base")
 
 # ======================

@@ -48,3 +48,41 @@ async def upload_audio(audio: UploadFile = File(...)):
 
     return {"file": filename}
 
+# ======================
+# Listar áudios
+# ======================
+@app.get("/audios")
+def listar_audios():
+    return [
+        f for f in os.listdir(UPLOAD_DIR)
+        if f.endswith((".wav", ".mp3", ".m4a"))
+    ]
+
+# ======================
+# Transcrição
+# ======================
+class TranscricaoRequest(BaseModel):
+    filename: str
+
+@app.post("/transcrever")
+def transcrever(req: TranscricaoRequest):
+    audio_path = os.path.join(UPLOAD_DIR, req.filename)
+
+    if not os.path.exists(audio_path):
+        raise HTTPException(status_code=404, detail="Áudio não encontrado")
+
+    # Whisper
+    result = model.transcribe(audio_path, language="pt")
+    texto = result["text"]
+
+    # Salva TXT
+    nome_txt = os.path.splitext(req.filename)[0] + ".txt"
+    caminho_txt = os.path.join(TRANSCRICOES_DIR, nome_txt)
+
+    with open(caminho_txt, "w", encoding="utf-8") as f:
+        f.write(texto)
+
+    return {
+        "texto": texto,
+        "arquivo_txt": nome_txt
+    }

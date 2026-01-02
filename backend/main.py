@@ -31,7 +31,7 @@ os.makedirs(TRANSCRICOES_DIR, exist_ok=True)
 # ======================
 # Whisper
 # ======================
-model = whisper.load_model("base")
+model = whisper.load_model("small")
 
 # ======================
 # Upload de áudio

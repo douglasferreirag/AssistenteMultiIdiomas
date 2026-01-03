@@ -1,109 +1,26 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Gravar e Transcrever Áudio</title>
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
-<h2>🎙️ Gravador de Áudio</h2>
+  <h2>🎙️ Gravador de Áudio</h2>
 
-<button id="start">Gravar</button>
-<button id="stop" disabled>Parar</button>
+  <button id="start">Gravar</button>
+  <button id="stop" disabled>Parar</button>
 
-<hr>
+  <hr />
 
-<h3>📂 Áudios gravados</h3>
-<select id="audioSelect"></select>
-<button id="transcrever">Transcrever</button>
+  <h3>📂 Áudios gravados</h3>
+  <select id="audioSelect"></select>
+  <button id="transcrever">Transcrever</button>
 
-<h3>📝 Transcrição</h3>
-<pre id="resultado"></pre>
+  <h3>📝 Transcrição</h3>
+  <pre id="resultado"></pre>
 
-<script>
-let mediaRecorder;
-let audioChunks = [];
-
-// =====================
-// Gravação
-// =====================
-document.getElementById("start").onclick = async () => {
-  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-  mediaRecorder = new MediaRecorder(stream);
-  audioChunks = [];
-
-  mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
-  mediaRecorder.start();
-
-  document.getElementById("start").disabled = true;
-  document.getElementById("stop").disabled = false;
-};
-
-document.getElementById("stop").onclick = async () => {
-  mediaRecorder.stop();
-
-  mediaRecorder.onstop = async () => {
-    const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
-    const formData = new FormData();
-    formData.append("audio", audioBlob, "request_audio.wav");
-
-    await fetch("http://127.0.0.1:8000/upload-audio", {
-      method: "POST",
-      body: formData
-    });
-
-    alert("Áudio enviado com sucesso!");
-    carregarAudios();
-  };
-
-  document.getElementById("start").disabled = false;
-  document.getElementById("stop").disabled = true;
-};
-
-// =====================
-// Listar áudios
-// =====================
-async function carregarAudios() {
-  const res = await fetch("http://127.0.0.1:8000/audios");
-  const audios = await res.json();
-
-  const select = document.getElementById("audioSelect");
-  select.innerHTML = "";
-
-  audios.forEach(audio => {
-    const option = document.createElement("option");
-    option.value = audio;
-    option.textContent = audio;
-    select.appendChild(option);
-  });
-}
-
-// =====================
-// Transcrever
-// =====================
-document.getElementById("transcrever").onclick = async () => {
-  const filename = document.getElementById("audioSelect").value;
-
-  if (!filename) {
-    alert("Selecione um áudio");
-    return;
-  }
-
-  document.getElementById("resultado").textContent = "⏳ Transcrevendo...";
-
-  const res = await fetch("http://127.0.0.1:8000/transcrever", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ filename })
-  });
-
-  const data = await res.json();
-  document.getElementById("resultado").textContent = data.texto;
-};
-
-// Carrega áudios ao abrir a página
-carregarAudios();
-</script>
-
+  <script src="js/app.js"></script>
 </body>
 </html>

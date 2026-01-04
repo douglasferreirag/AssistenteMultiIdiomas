@@ -6,7 +6,6 @@ model = whisper.load_model("small")
 def transcrever_audio(audio_path: str) -> str:
     result = model.transcribe(
         audio_path,
-        language="pt",
         task="transcribe",
 
         # 🔒 Controle de alucinação

@@ -1,16 +1,98 @@
+/* =========================
+   Base
+========================= */
 body {
   font-family: Arial, Helvetica, sans-serif;
   padding: 20px;
+  background-color: #f4f6f8;
 }
 
+/* Remove os <hr> visuais */
+hr {
+  display: none;
+}
+
+/* =========================
+   Cards (seções)
+========================= */
+section {
+  background: #ffffff;
+  padding: 20px;
+  margin-bottom: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* =========================
+   Títulos
+========================= */
+section h2,
+section h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+/* =========================
+   Botões
+========================= */
 button {
   margin-right: 8px;
-  padding: 6px 12px;
+  padding: 8px 14px;
   cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  background-color: #2563eb;
+  color: #fff;
+  font-weight: 500;
 }
 
-pre {
-  background: #f4f4f4;
-  padding: 10px;
-  border-radius: 4px;
+button:hover:not(:disabled) {
+  background-color: #1e4fd6;
 }
+
+button:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* =========================
+   Select
+========================= */
+select {
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  min-width: 250px;
+}
+
+/* =========================
+   Áudio
+========================= */
+audio {
+  width: 100%;
+  margin-top: 10px;
+}
+
+/* =========================
+   Transcrição
+========================= */
+pre {
+  background: #f1f1f1;
+  padding: 15px;
+  border-radius: 8px;
+  white-space: pre-wrap;
+  min-height: 120px;
+  font-size: 14px;
+}
+
+#transcricao {
+  min-height: 120px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  background: #f9f9f9;
+  white-space: pre-wrap;
+}
+

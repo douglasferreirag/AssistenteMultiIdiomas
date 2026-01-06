@@ -1,15 +1,12 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from app.routes import audio, transcricao
+
+from app.core.cors import setup_cors
+from app.core.static import setup_static_files
+from app.routes import include_routes
 
 app = FastAPI()
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-app.include_router(audio.router)
-app.include_router(transcricao.router)
+# Configurações
+setup_cors(app)
+setup_static_files(app)
+include_routes(app)

@@ -7,19 +7,54 @@
 </head>
 <body>
 
-  <h2>🎙️ Gravador de Áudio</h2>
+  <!-- ========================= -->
+  <!-- Seção 1: Gravação de áudio -->
+  <!-- ========================= -->
+  <section id="secao-gravacao">
+    <h2>🎙️ Gravador de Áudio</h2>
 
-  <button id="start">Gravar</button>
-  <button id="stop" disabled>Parar</button>
+    <button id="start">Gravar</button>
+    <button id="stop" disabled>Parar</button>
+  </section>
 
   <hr />
 
-  <h3>📂 Áudios gravados</h3>
-  <select id="audioSelect"></select>
-  <button id="transcrever">Transcrever</button>
+  <!-- ================================= -->
+  <!-- Seção 2: Listagem / reprodução -->
+  <!-- ================================= -->
+  <section id="secao-audios">
+    <h3>📂 Áudios gravados</h3>
 
-  <h3>📝 Transcrição</h3>
-  <pre id="resultado"></pre>
+    <select id="audioSelect">
+      <option value="">Selecione um áudio</option>
+    </select>
+
+    <br><br>
+
+    <button id="playAudio" disabled>▶️ Escutar</button>
+    <button id="transcrever" disabled>Transcrever</button>
+
+    <br><br>
+
+    <audio id="audioPlayer" controls style="display: none;" src =""></audio>
+  </section>
+
+  <hr />
+
+  <!-- ========================= -->
+  <!-- Seção 3: Transcrição -->
+  <!-- ========================= -->
+  <section id="secao-transcricao">
+    <h3>📝 Transcrição</h3>
+
+     <!-- Histórico em display -->
+    <div id="transcricao">
+      
+
+      
+    </div>
+   
+  </section>
 
   <script src="js/app.js" defer></script>
 </body>
